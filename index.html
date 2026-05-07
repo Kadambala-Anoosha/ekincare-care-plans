@@ -634,13 +634,16 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, phone: '+91' + phone, concern }),
       });
-      if (!res.ok) throw new Error('server');
+      const data = await res.json();
+      if (!res.ok) throw new Error(JSON.stringify(data));
       card.classList.add('done');
-    } catch {
+    } catch (err) {
       btn.disabled = false;
       btn.style.opacity = '';
       btn.textContent = 'Book free consultation';
-      document.getElementById('form-error').style.display = 'block';
+      const errEl = document.getElementById('form-error');
+      errEl.textContent = 'Error: ' + err.message;
+      errEl.style.display = 'block';
     }
   });
 
