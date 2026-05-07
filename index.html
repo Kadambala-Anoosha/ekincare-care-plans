@@ -1,11 +1,12 @@
-<!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>ekincare Care Plans — Reverse it before it reverses you</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Newsreader:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&display=swap" rel="stylesheet" />
 <style>
   :root{
     /* ekincare brand */
@@ -109,13 +110,25 @@
   .stat-card .src{font-size:11px;color:var(--ink-3);margin-top:auto}
   .stat-card .chart{height:120px}
   .stat-card .chart svg{width:100%;height:100%}
+  .stat-card .chart .dia-bars rect{transition:fill .5s ease}
+  .stat-card .chart .dia-bars rect.hot{fill:#FF8800}
+  /* default at rest: most recent year is orange */
+  .stat-card .chart .dia-bars rect:last-child{fill:#FF8800}
+  .stat-card:hover .chart .dia-bars rect:last-child:not(.hot){fill:#A07700}
+  /* weight chart: line draws + head dot rides on hover (driven by JS rAF) */
+  @media (prefers-reduced-motion: reduce){
+    .stat-card .chart .dia-bars rect{transition:none}
+  }
   /* people grid (10x5) */
   .people-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:5px;padding:6px 0}
-  .people-grid span{aspect-ratio:1;border-radius:50%;background:var(--line)}
+  .people-grid span{aspect-ratio:1;border-radius:50%;background:var(--line);transition:background .45s ease, transform .45s ease}
   .people-grid span.on{background:var(--brand)}
-  .people-grid.bp span.on{background:#D63B5A}
+  .people-grid.bp span.on{background:#D63B5A;transform:scale(1.08)}
   .people-grid.dia span.on{background:#A07700}
   .people-grid.wt span.on{background:var(--brand)}
+  @media (prefers-reduced-motion: reduce){
+    .people-grid.bp span{transition:none}
+  }
 
   /* SPLIT — risk vs reverse */
   .split{background:#fff;border-top:1px solid var(--line-2);border-bottom:1px solid var(--line-2)}
@@ -299,7 +312,6 @@
   .tweaks-panel{font-family:var(--sans)}
 </style>
 </head>
-
 <body data-screen-label="Care Plans Landing">
 
 <!-- =================== NAV =================== -->
@@ -309,10 +321,10 @@
       <span class="logo-mark" aria-hidden="true">
         <svg viewBox="0 0 60 52" fill="none">
           <!-- ekincare E mark: blue shield with green/yellow/coral bars -->
-          <path d="M4 4 L42 4 L52 26 L42 48 L4 48 Z" fill="#2D6BFF"></path>
-          <rect x="14" y="14" width="22" height="3.5" rx="1.5" fill="#21C36F"></rect>
-          <rect x="14" y="22" width="18" height="3.5" rx="1.5" fill="#F6C90E"></rect>
-          <rect x="14" y="30" width="22" height="3.5" rx="1.5" fill="#FF5C7A"></rect>
+          <path d="M4 4 L42 4 L52 26 L42 48 L4 48 Z" fill="#2D6BFF"/>
+          <rect x="14" y="14" width="22" height="3.5" rx="1.5" fill="#21C36F"/>
+          <rect x="14" y="22" width="18" height="3.5" rx="1.5" fill="#F6C90E"/>
+          <rect x="14" y="30" width="22" height="3.5" rx="1.5" fill="#FF5C7A"/>
         </svg>
       </span>
       <b>ekincare</b>
@@ -323,7 +335,7 @@
     </div>
     <a href="#consult" class="nav-cta">
       Book free call
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>
   </div>
 </nav>
@@ -338,14 +350,14 @@
           Specialist consultation worth ₹1,200
         </span>
         <h1 class="display">
-          Reverse it<br>
+          Reverse it<br/>
           <em>before</em> it reverses you.
         </h1>
         <p class="lede" style="margin-top:20px">Your health check flagged blood pressure, sugar, or weight? Caught early, all three are reversible — with the right care.</p>
         <div class="ctas">
           <a href="#consult" class="btn btn-primary">
             Book free consultation
-            <svg class="arr" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <svg class="arr" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
         </div>
       </div>
@@ -386,18 +398,18 @@
         <div class="chart" aria-hidden="true">
           <svg viewBox="0 0 280 120" preserveAspectRatio="none">
             <g stroke="var(--line)" stroke-width="1">
-              <line x1="0" y1="20" x2="280" y2="20" stroke-dasharray="2 4"></line>
-              <line x1="0" y1="60" x2="280" y2="60" stroke-dasharray="2 4"></line>
-              <line x1="0" y1="100" x2="280" y2="100"></line>
+              <line x1="0" y1="20" x2="280" y2="20" stroke-dasharray="2 4"/>
+              <line x1="0" y1="60" x2="280" y2="60" stroke-dasharray="2 4"/>
+              <line x1="0" y1="100" x2="280" y2="100"/>
             </g>
-            <g fill="#A07700">
-              <rect x="10" y="80" width="22" height="20" rx="2"></rect>
-              <rect x="50" y="68" width="22" height="32" rx="2"></rect>
-              <rect x="90" y="56" width="22" height="44" rx="2"></rect>
-              <rect x="130" y="42" width="22" height="58" rx="2"></rect>
-              <rect x="170" y="30" width="22" height="70" rx="2"></rect>
-              <rect x="210" y="18" width="22" height="82" rx="2"></rect>
-              <rect x="250" y="8" width="22" height="92" rx="2" fill="#FF8800"></rect>
+            <g fill="#A07700" class="dia-bars">
+              <rect x="10" y="80" width="22" height="20" rx="2"/>
+              <rect x="50" y="68" width="22" height="32" rx="2"/>
+              <rect x="90" y="56" width="22" height="44" rx="2"/>
+              <rect x="130" y="42" width="22" height="58" rx="2"/>
+              <rect x="170" y="30" width="22" height="70" rx="2"/>
+              <rect x="210" y="18" width="22" height="82" rx="2"/>
+              <rect x="250" y="8" width="22" height="92" rx="2"/>
             </g>
             <g font-family="ui-monospace,monospace" font-size="9" fill="var(--ink-3)">
               <text x="10" y="115">'90</text>
@@ -416,22 +428,27 @@
         <div class="big">44%</div>
         <h4>of urban Indians have unhealthy BMI.</h4>
         <div class="chart" aria-hidden="true">
-          <svg viewBox="0 0 280 120" preserveAspectRatio="none">
+          <svg viewBox="0 0 280 120" preserveAspectRatio="none" class="wt-chart">
             <defs>
               <linearGradient id="wtGrad" x1="0" x2="0" y1="0" y2="1">
-                <stop offset="0" stop-color="#2D6BFF" stop-opacity=".35"></stop>
-                <stop offset="1" stop-color="#2D6BFF" stop-opacity="0"></stop>
+                <stop offset="0" stop-color="#2D6BFF" stop-opacity=".35"/>
+                <stop offset="1" stop-color="#2D6BFF" stop-opacity="0"/>
               </linearGradient>
+              <clipPath id="wtClip">
+                <rect class="wt-clip-rect" x="0" y="0" width="280" height="120"/>
+              </clipPath>
             </defs>
             <g stroke="var(--line)" stroke-width="1">
-              <line x1="0" y1="20" x2="280" y2="20" stroke-dasharray="2 4"></line>
-              <line x1="0" y1="60" x2="280" y2="60" stroke-dasharray="2 4"></line>
-              <line x1="0" y1="100" x2="280" y2="100"></line>
+              <line x1="0" y1="20" x2="280" y2="20" stroke-dasharray="2 4"/>
+              <line x1="0" y1="60" x2="280" y2="60" stroke-dasharray="2 4"/>
+              <line x1="0" y1="100" x2="280" y2="100"/>
             </g>
-            <path d="M10 88 Q70 78 110 64 T200 38 T270 22 L270 100 L10 100 Z" fill="url(#wtGrad)"></path>
-            <path d="M10 88 Q70 78 110 64 T200 38 T270 22" stroke="#2D6BFF" stroke-width="2.5" fill="none"></path>
-            <circle cx="10" cy="88" r="3" fill="#2D6BFF"></circle>
-            <circle cx="270" cy="22" r="3.5" fill="#2D6BFF"></circle>
+            <g clip-path="url(#wtClip)">
+              <path d="M10 88 Q70 78 110 64 T200 38 T270 22 L270 100 L10 100 Z" fill="url(#wtGrad)"/>
+              <path class="wt-line" d="M10 88 Q70 78 110 64 T200 38 T270 22" stroke="#2D6BFF" stroke-width="2.5" fill="none"/>
+            </g>
+            <circle cx="10" cy="88" r="3" fill="#2D6BFF"/>
+            <circle class="wt-head" cx="270" cy="22" r="3.5" fill="#2D6BFF"/>
             <g font-family="ui-monospace,monospace" font-size="9" fill="var(--ink-3)">
               <text x="10" y="115">2010</text>
               <text x="135" y="115">2018</text>
@@ -476,7 +493,7 @@
     <div class="plans-grid">
       <article class="plan bp">
         <div class="icon-wrap" data-comment-anchor="9f39a12d83-div">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.8"></circle><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 13.5h2M19 13.5h2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 13.5h2M19 13.5h2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
         </div>
         <h3>High Blood Pressure</h3>
         <p class="one-liner"><b>The risk:</b> Silently scars your heart, kidneys, and brain. 2× stroke risk. India's #1 cause of kidney failure.</p>
@@ -485,7 +502,7 @@
 
       <article class="plan dia">
         <div class="icon-wrap">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="13" height="18" rx="2" stroke="currentColor" stroke-width="1.8"></rect><rect x="7" y="6" width="7" height="4" rx="1" stroke="currentColor" stroke-width="1.5"></rect><path d="M7 14h7M7 17h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><path d="M19 9c0 1.5-2 2.5-2 4a2 2 0 0 0 4 0c0-1.5-2-2.5-2-4Z" fill="currentColor"></path></svg>
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="13" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="7" y="6" width="7" height="4" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M7 14h7M7 17h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M19 9c0 1.5-2 2.5-2 4a2 2 0 0 0 4 0c0-1.5-2-2.5-2-4Z" fill="currentColor"/></svg>
         </div>
         <h3>Pre-Diabetes &amp; Diabetes</h3>
         <p class="one-liner"><b>The risk:</b> 70% of pre-diabetics turn Type 2 within 8 years. Damages eyes, nerves, kidneys — often before symptoms.</p>
@@ -494,7 +511,7 @@
 
       <article class="plan wt">
         <div class="icon-wrap">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="5" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><path d="M8.5 11h7l-.8 4h-1.7v6h-2v-6h-1.7l-.8-4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path><path d="M19 7l2 2-2 2M21 9h-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="5" r="2.4" stroke="currentColor" stroke-width="1.8"/><path d="M8.5 11h7l-.8 4h-1.7v6h-2v-6h-1.7l-.8-4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M19 7l2 2-2 2M21 9h-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
         <h3>Excess Weight</h3>
         <p class="one-liner"><b>The risk:</b> Belly fat drives BP up, dulls insulin, and inflames arteries — the root behind both risks above.</p>
@@ -547,11 +564,11 @@
           <h3>Reserve my slot</h3>
           <p class="sub">We'll call you within 24 working hours.</p>
 
-          <form id="leadForm" novalidate="">
+          <form id="leadForm" novalidate>
             <div class="field">
               <label for="name">Name</label>
               <div class="input-wrap">
-                <input id="name" name="name" type="text" placeholder="Your full name" autocomplete="name" required="">
+                <input id="name" name="name" type="text" placeholder="Your full name" autocomplete="name" required />
               </div>
             </div>
 
@@ -559,22 +576,22 @@
               <label for="phone">Phone</label>
               <div class="input-wrap">
                 <span class="prefix">+91</span>
-                <input id="phone" name="phone" type="tel" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" placeholder="10-digit mobile" autocomplete="tel-national" required="">
+                <input id="phone" name="phone" type="tel" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" placeholder="10-digit mobile" autocomplete="tel-national" required />
               </div>
             </div>
 
             <div class="field">
               <label>Concern (optional)</label>
               <div class="radio-row" role="radiogroup">
-                <label><input type="radio" name="concern" value="bp"><span>BP</span></label>
-                <label><input type="radio" name="concern" value="diabetes"><span>Diabetes</span></label>
-                <label><input type="radio" name="concern" value="weight"><span>Weight</span></label>
+                <label><input type="radio" name="concern" value="bp" /><span>BP</span></label>
+                <label><input type="radio" name="concern" value="diabetes" /><span>Diabetes</span></label>
+                <label><input type="radio" name="concern" value="weight" /><span>Weight</span></label>
               </div>
             </div>
 
             <button type="submit" class="submit">
               Book free consultation
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
             <p class="form-meta">By submitting, you agree to be contacted by an ekincare advisor.</p>
             <p id="form-error" style="display:none;color:#D63B5A;font-size:13px;text-align:center;margin-top:8px">Something went wrong. Please try again.</p>
@@ -582,7 +599,7 @@
         </div>
 
         <div class="success">
-          <svg width="44" height="44" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.4"></circle><path d="M8 12.5l2.5 2.5L16 9.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.4"/><path d="M8 12.5l2.5 2.5L16 9.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <h3 style="margin:6px 0 0">You're on the list.</h3>
           <p class="sub" style="margin:0">A specialist will call within 24 working hours.</p>
         </div>
@@ -650,5 +667,226 @@
   });
 </script>
 
+<!-- React + Babel for Tweaks panel -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+
+<div id="tweaks-root"></div>
+
+<script type="text/babel">
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "mood": "calm",
+  "voice": "editorial",
+  "density": "standard"
+}/*EDITMODE-END*/;
+
+function applyBodyClasses(t){
+  const b = document.body;
+  b.classList.remove('mood-calm','mood-urgent','mood-hopeful');
+  b.classList.add('mood-' + t.mood);
+  b.classList.remove('voice-editorial','voice-plain','voice-clinical');
+  b.classList.add('voice-' + t.voice);
+  b.classList.remove('density-standard','density-airy','density-compact');
+  b.classList.add('density-' + t.density);
+}
+
+function App(){
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  React.useEffect(() => { applyBodyClasses(t); }, [t.mood, t.voice, t.density]);
+
+  return (
+    <TweaksPanel title="Tweaks">
+      <TweakSection title="Mood" hint="Reframes the emotional pitch of the page.">
+        <TweakRadio
+          value={t.mood}
+          onChange={v => setTweak('mood', v)}
+          options={[
+            { value: 'calm',    label: 'Calm' },
+            { value: 'urgent',  label: 'Urgent' },
+            { value: 'hopeful', label: 'Hopeful' },
+          ]}
+        />
+      </TweakSection>
+
+      <TweakSection title="Voice" hint="Editorial leans warm; clinical leans data-forward.">
+        <TweakRadio
+          value={t.voice}
+          onChange={v => setTweak('voice', v)}
+          options={[
+            { value: 'editorial', label: 'Editorial' },
+            { value: 'plain',     label: 'Plain' },
+            { value: 'clinical',  label: 'Clinical' },
+          ]}
+        />
+      </TweakSection>
+
+      <TweakSection title="Density" hint="Whitespace and type scale, all together.">
+        <TweakRadio
+          value={t.density}
+          onChange={v => setTweak('density', v)}
+          options={[
+            { value: 'airy',     label: 'Airy' },
+            { value: 'standard', label: 'Standard' },
+            { value: 'compact',  label: 'Compact' },
+          ]}
+        />
+      </TweakSection>
+    </TweaksPanel>
+  );
+}
+
+// apply defaults immediately so first paint matches
+applyBodyClasses(TWEAK_DEFAULTS);
+
+ReactDOM.createRoot(document.getElementById('tweaks-root')).render(<App />);
+</script>
+
+<script>
+// Animate BP people-grid on hover: each red dot advances by one position per tick,
+// so dot 1 becomes dot 2, dot 2 becomes dot 3, etc. — wrapping the 30-cell grid.
+// Only runs while the user hovers/focuses the stat card.
+(function animateBPDots(){
+  const grid = document.querySelector('.people-grid.bp');
+  if(!grid) return;
+  const card = grid.closest('.stat-card') || grid.parentElement;
+  const dots = Array.from(grid.querySelectorAll('span'));
+  const N = dots.length;
+  let offset = 0;
+  let timer = null;
+
+  // Snapshot the original "on" pattern so we can restore on mouseleave.
+  const originalOn = dots.map(d => d.classList.contains('on'));
+  function reset(){
+    dots.forEach((d,i)=>d.classList.toggle('on', originalOn[i]));
+    offset = 0;
+  }
+
+  function tick(){
+    dots.forEach((d,i)=>{
+      const isOn = ((i - offset) % 3 + 3) % 3 === 0;
+      d.classList.toggle('on', isOn);
+    });
+    offset = (offset + 1) % N;
+  }
+
+  function start(){
+    if(timer) return;
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    tick();
+    timer = setInterval(tick, 900);
+  }
+  function stop(){
+    if(timer){ clearInterval(timer); timer = null; }
+    reset();
+  }
+
+  card.addEventListener('mouseenter', start);
+  card.addEventListener('mouseleave', stop);
+  card.addEventListener('focusin', start);
+  card.addEventListener('focusout', stop);
+})();
+
+// Weight chart: line + head dot grow from 2010 to 2025 on hover (JS rAF tween).
+(function animateWtChart(){
+  const svg = document.querySelector('.wt-chart');
+  if(!svg) return;
+  const card = svg.closest('.stat-card');
+  const line = svg.querySelector('.wt-line');
+  const clipRect = svg.querySelector('.wt-clip-rect');
+  const head = svg.querySelector('.wt-head');
+  if(!line || !clipRect || !head) return;
+
+  const total = line.getTotalLength();
+  line.style.strokeDasharray = total;
+
+  function setProgress(p){
+    p = Math.max(0, Math.min(1, p));
+    line.style.strokeDashoffset = total * (1 - p);
+    clipRect.setAttribute('width', String(280 * p));
+    const pt = line.getPointAtLength(total * p);
+    head.setAttribute('cx', pt.x);
+    head.setAttribute('cy', pt.y);
+    head.style.opacity = p > 0.02 ? '1' : '0';
+  }
+
+  // default at rest = fully drawn (matches original look)
+  setProgress(1);
+
+  function reduced(){ return window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+
+  const DURATION = 1600;
+  let raf = null;
+  let resetTimer = null;
+  // ease-out cubic
+  const ease = t => 1 - Math.pow(1 - t, 3);
+
+  function tween(from, to, onDone){
+    if(raf) cancelAnimationFrame(raf);
+    const t0 = performance.now();
+    function step(now){
+      const t = Math.min(1, (now - t0) / DURATION);
+      setProgress(from + (to - from) * ease(t));
+      if(t < 1){ raf = requestAnimationFrame(step); }
+      else { raf = null; onDone && onDone(); }
+    }
+    raf = requestAnimationFrame(step);
+  }
+
+  function start(){
+    if(reduced()){ setProgress(1); return; }
+    if(resetTimer){ clearTimeout(resetTimer); resetTimer = null; }
+    setProgress(0);
+    tween(0, 1);
+  }
+  function stop(){
+    if(raf){ cancelAnimationFrame(raf); raf = null; }
+    if(resetTimer) clearTimeout(resetTimer);
+    // settle to fully drawn
+    resetTimer = setTimeout(()=> setProgress(1), 50);
+  }
+
+  card.addEventListener('mouseenter', start);
+  card.addEventListener('mouseleave', stop);
+  card.addEventListener('focusin', start);
+  card.addEventListener('focusout', stop);
+})();
+(function animateDiaBars(){
+  const bars = document.querySelectorAll('.stat-card .chart .dia-bars rect');
+  if(!bars.length) return;
+  const card = bars[0].closest('.stat-card');
+  let idx = 0;
+  let timer = null;
+
+  function paint(){
+    bars.forEach((b,i)=>b.classList.toggle('hot', i === idx));
+  }
+  function reset(){
+    bars.forEach(b=>b.classList.remove('hot'));
+    idx = 0;
+  }
+  function tick(){
+    paint();
+    idx = (idx + 1) % bars.length;
+  }
+  function start(){
+    if(timer) return;
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    idx = 0;
+    tick();
+    timer = setInterval(tick, 700);
+  }
+  function stop(){
+    if(timer){ clearInterval(timer); timer = null; }
+    reset();
+  }
+
+  card.addEventListener('mouseenter', start);
+  card.addEventListener('mouseleave', stop);
+  card.addEventListener('focusin', start);
+  card.addEventListener('focusout', stop);
+})();
+</script>
 </body>
 </html>
