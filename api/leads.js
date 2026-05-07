@@ -10,21 +10,14 @@ module.exports = async function handler(req, res) {
       return res.status(400).json({ error: 'Name is required' });
     }
     if (!phone || !/^\+91\d{10}$/.test(phone)) {
-      return res.status(400).json({ error: 'Invalid phone', received: phone });
+      return res.status(400).json({ error: 'Invalid phone number' });
     }
 
-    const supabaseUrl = process.env.SUPABASE_URL;
-    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-    if (!supabaseUrl || !supabaseKey) {
-      return res.status(500).json({ error: 'Missing env vars', hasUrl: !!supabaseUrl, hasKey: !!supabaseKey });
-    }
-
-    const response = await fetch(`${supabaseUrl}/rest/v1/call_requests`, {
+    const response = await fetch(`${process.env.SUPABASE_URL}/rest/v1/call_requests`, {
       method: 'POST',
       headers: {
-        'apikey': supabaseKey,
-        'Authorization': `Bearer ${supabaseKey}`,
+        'apikey': process.env.SUPABASE_SERVICE_ROLE_KEY,
+        'Authorization': `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`,
         'Content-Type': 'application/json',
         'Prefer': 'return=minimal',
       },
@@ -35,15 +28,15 @@ module.exports = async function handler(req, res) {
       }),
     });
 
-    const responseText = await response.text();
-
     if (!response.ok) {
-      return res.status(500).json({ error: 'Supabase error', status: response.status, detail: responseText });
+      console.error('Supabase error:', response.status, await response.text());
+      return res.status(500).json({ error: 'Failed to save' });
     }
 
     return res.status(200).json({ ok: true });
 
   } catch (err) {
-    return res.status(500).json({ error: 'Exception', message: err.message });
+    console.error('Handler exception:', err.message);
+    return res.status(500).json({ error: 'Server error' });
   }
 };
