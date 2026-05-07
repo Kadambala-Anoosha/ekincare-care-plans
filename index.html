@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ekincare Care Plans — Reverse it before it reverses you</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Newsreader:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* ekincare brand */
+    --brand: #2D6BFF;
+    --brand-dark: #1F4FCC;
+    --brand-soft: #E8F0FF;
+    --ink: #0E1B3D;       /* navy wordmark */
+    --ink-2: #4A557A;
+    --ink-3: #8089A6;
+    --bg: #F7F8FB;
+    --bg-2: #EEF1F7;
+    --line: #E2E6F0;
+    --line-2: #EDF0F6;
+    /* accent dots from the logo glyph */
+    --green: #21C36F;
+    --yellow: #F6C90E;
+    --coral: #FF5C7A;
+
+    --serif: "Newsreader", Georgia, serif;
+    --sans: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, monospace;
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+  body{font-size:16px;line-height:1.5}
+  img,svg{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+  input{font:inherit;color:inherit}
+
+  .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+  @media(max-width:640px){.wrap{padding:0 18px}}
+
+  /* type */
+  .display{font-family:var(--serif);font-weight:400;letter-spacing:-0.02em;line-height:1.02;font-size:clamp(40px,6vw,76px);text-wrap:balance}
+  .display em{font-style:italic;color:var(--brand);font-weight:300}
+  .h2{font-family:var(--serif);font-weight:400;letter-spacing:-0.018em;line-height:1.06;font-size:clamp(30px,3.6vw,48px);text-wrap:balance}
+  .h2 em{font-style:italic;color:var(--brand);font-weight:300}
+  .lede{font-size:clamp(15px,1.1vw,17px);color:var(--ink-2);max-width:50ch;line-height:1.5}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--brand);font-weight:500}
+
+  /* nav */
+  nav.top{position:sticky;top:0;z-index:30;background:rgba(247,248,251,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line-2)}
+  nav.top .row{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{display:flex;align-items:center;gap:8px}
+  .logo-mark{width:30px;height:26px;position:relative}
+  .logo-mark svg{width:100%;height:100%;display:block}
+  .logo b{font-weight:700;font-size:20px;color:var(--ink);letter-spacing:-0.01em}
+  nav .links{display:flex;gap:24px;color:var(--ink-2);font-size:14px}
+  @media(max-width:760px){nav .links{display:none}}
+  .nav-cta{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:999px;background:var(--brand);color:#fff;font-size:13.5px;font-weight:500}
+  .nav-cta:hover{background:var(--brand-dark)}
+
+  /* btn */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 22px;border-radius:999px;font-weight:500;font-size:15px;transition:transform .15s, background .15s}
+  .btn-primary{background:var(--brand);color:#fff}
+  .btn-primary:hover{transform:translateY(-1px);background:var(--brand-dark)}
+  .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+  .btn-ghost:hover{background:#fff}
+  .btn .arr{transition:transform .2s}
+  .btn:hover .arr{transform:translateX(3px)}
+
+  section{padding:clamp(56px,7vw,96px) 0}
+
+  /* HERO — centered, no metric cards */
+  .hero{padding-top:clamp(48px,7vw,96px);padding-bottom:clamp(40px,6vw,80px);text-align:center}
+  .hero-grid{display:flex;flex-direction:column;align-items:center;gap:0}
+  .hero .display{max-width:18ch}
+  .hero .lede{margin-left:auto;margin-right:auto}
+  .hero .ctas{justify-content:center}
+  .hero .ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+  .hero .free-pill{display:inline-flex;align-items:center;gap:10px;padding:6px 14px 6px 6px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:13px;color:var(--ink-2);margin-bottom:24px}
+  .hero .free-pill .tag{background:var(--brand);color:#fff;font-weight:600;padding:4px 10px;border-radius:999px;font-size:11.5px;letter-spacing:.04em}
+
+  /* big visual: 3 vital glyphs */
+  .vitals{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  .v-card{
+    background:#fff;border:1px solid var(--line);border-radius:18px;
+    padding:22px 18px;display:flex;flex-direction:column;gap:14px;align-items:flex-start;
+    aspect-ratio:1/1.05;justify-content:space-between;
+    transition:transform .25s, box-shadow .25s;
+  }
+  .v-card:hover{transform:translateY(-3px);box-shadow:0 20px 40px -28px rgba(45,107,255,.25)}
+  .v-card .glyph{width:100%;flex:1;display:flex;align-items:center;justify-content:center;min-height:0}
+  .v-card .glyph svg{width:100%;height:100%;max-height:120px}
+  .v-card .name{font-weight:600;font-size:14px}
+  .v-card .num{font-family:var(--serif);font-size:clamp(22px,2.6vw,30px);letter-spacing:-0.015em;line-height:1}
+  .v-card .lab{font-size:11px;color:var(--ink-3);font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+  @media(max-width:540px){.vitals{grid-template-columns:1fr 1fr}.v-card:last-child{grid-column:1/-1;aspect-ratio:auto}}
+
+  /* STATS — population data */
+  .stats-sec{background:#fff;border-top:1px solid var(--line-2);border-bottom:1px solid var(--line-2)}
+  .stats-head{text-align:center;margin-bottom:48px;display:flex;flex-direction:column;gap:14px;align-items:center}
+  .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:900px){.stats-grid{grid-template-columns:1fr}}
+  .stat-card{background:var(--bg);border:1px solid var(--line);border-radius:20px;padding:28px;display:flex;flex-direction:column;gap:14px}
+  .stat-card .label{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+  .stat-card h4{margin:0;font-family:var(--serif);font-size:22px;letter-spacing:-0.015em;font-weight:500;line-height:1.2}
+  .stat-card .big{font-family:var(--serif);font-size:clamp(40px,4.5vw,56px);letter-spacing:-0.025em;line-height:1;color:var(--brand);font-weight:400}
+  .stat-card .src{font-size:11px;color:var(--ink-3);margin-top:auto}
+  .stat-card .chart{height:120px}
+  .stat-card .chart svg{width:100%;height:100%}
+  /* people grid (10x5) */
+  .people-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:5px;padding:6px 0}
+  .people-grid span{aspect-ratio:1;border-radius:50%;background:var(--line)}
+  .people-grid span.on{background:var(--brand)}
+  .people-grid.bp span.on{background:#D63B5A}
+  .people-grid.dia span.on{background:#A07700}
+  .people-grid.wt span.on{background:var(--brand)}
+
+  /* SPLIT — risk vs reverse */
+  .split{background:#fff;border-top:1px solid var(--line-2);border-bottom:1px solid var(--line-2)}
+  .split-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:24px;overflow:hidden;border:1px solid var(--line)}
+  @media(max-width:760px){.split-grid{grid-template-columns:1fr}}
+  .split-side{padding:clamp(28px,4vw,48px);display:flex;flex-direction:column;gap:18px;min-height:340px;position:relative;overflow:hidden}
+  .split-side.bad{background:linear-gradient(160deg,#FFF1F4 0%,#FFE4EA 100%)}
+  .split-side.good{background:linear-gradient(160deg,#E8FFF3 0%,#D5F5E5 100%);border-left:1px solid var(--line)}
+  @media(max-width:760px){.split-side.good{border-left:0;border-top:1px solid var(--line)}}
+  .split-side h3{margin:0;font-family:var(--serif);font-size:clamp(26px,3vw,38px);letter-spacing:-0.018em;line-height:1.05;font-weight:400}
+  .split-side .tag{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;align-self:flex-start;padding:5px 11px;border-radius:999px;background:rgba(255,255,255,.6)}
+  .split-side.bad .tag{color:#B8253E}
+  .split-side.good .tag{color:#0E7A48}
+  .split-side .stat{font-family:var(--serif);font-size:clamp(48px,7vw,84px);letter-spacing:-0.03em;line-height:1;font-weight:400}
+  .split-side.bad .stat{color:#B8253E}
+  .split-side.good .stat{color:#0E7A48}
+  .split-side .stat-lab{font-size:14px;color:var(--ink-2);max-width:30ch}
+
+  /* PLANS */
+  .plans-head{text-align:center;margin-bottom:48px;display:flex;flex-direction:column;gap:14px;align-items:center}
+  .plans-head .lede{margin:0 auto}
+  .plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:900px){.plans-grid{grid-template-columns:1fr}}
+  .plan{
+    background:#fff;border:1px solid var(--line);border-radius:22px;
+    padding:28px 26px;display:flex;flex-direction:column;gap:16px;
+    transition:transform .2s, box-shadow .2s;position:relative;overflow:hidden;
+  }
+  .plan:hover{transform:translateY(-3px);box-shadow:0 20px 40px -24px rgba(14,27,61,.18)}
+  .plan .icon-wrap{
+    width:56px;height:56px;border-radius:16px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .plan.bp .icon-wrap{background:#FFE4EA;color:#D63B5A}
+  .plan.dia .icon-wrap{background:#FFF6D6;color:#A07700}
+  .plan.wt .icon-wrap{background:var(--brand-soft);color:var(--brand)}
+  .plan h3{margin:0;font-family:var(--serif);font-size:26px;letter-spacing:-0.015em;line-height:1.1;font-weight:500}
+  .plan .one-liner{color:var(--ink-2);font-size:14px;line-height:1.5}
+  .plan ul{margin:6px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+  .plan li{font-size:13.5px;color:var(--ink-2);display:flex;gap:8px;align-items:center}
+  .plan li::before{content:"";width:4px;height:4px;border-radius:50%;background:var(--brand);flex-shrink:0}
+  .plan .foot{margin-top:auto;padding-top:18px;border-top:1px dashed var(--line);display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .plan .foot .duration{font-size:12px;color:var(--ink-3);font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase}
+  .plan .foot a{display:inline-flex;align-items:center;gap:6px;color:var(--brand);font-weight:600;font-size:13.5px}
+  .plan .foot a:hover{color:var(--brand-dark)}
+
+  /* HOW */
+  .how-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border:1px solid var(--line);border-radius:22px;overflow:hidden;background:#fff}
+  @media(max-width:760px){.how-grid{grid-template-columns:1fr}}
+  .step{padding:32px 28px;display:flex;flex-direction:column;gap:12px;border-right:1px solid var(--line)}
+  .step:last-child{border-right:0}
+  @media(max-width:760px){.step{border-right:0;border-bottom:1px solid var(--line)}.step:last-child{border-bottom:0}}
+  .step .n{
+    width:38px;height:38px;border-radius:50%;background:var(--brand-soft);color:var(--brand);
+    display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:16px;font-weight:500;
+  }
+  .step h4{margin:0;font-family:var(--serif);font-size:22px;letter-spacing:-0.015em;font-weight:500}
+  .step p{margin:0;color:var(--ink-2);font-size:14px;line-height:1.5}
+
+  /* CTA / form */
+  .cta{background:var(--ink);color:#fff;position:relative;overflow:hidden}
+  .cta::before{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(700px 350px at 80% 10%, rgba(45,107,255,.45), transparent 60%),
+               radial-gradient(500px 280px at 5% 100%, rgba(33,195,111,.20), transparent 60%);
+    pointer-events:none;
+  }
+  .cta .wrap{position:relative;z-index:2}
+  .cta .grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+  @media(max-width:900px){.cta .grid{grid-template-columns:1fr;gap:32px}}
+  .cta .display{color:#fff}
+  .cta .display em{color:#7FA8FF}
+  .cta .lede{color:rgba(255,255,255,.78)}
+  .cta .price-line{display:flex;align-items:baseline;gap:14px;margin-top:24px;flex-wrap:wrap}
+  .cta .price-line .free{font-family:var(--serif);font-size:48px;letter-spacing:-0.02em}
+  .cta .price-line .strike{font-size:18px;color:rgba(255,255,255,.5);text-decoration:line-through}
+  .cta .price-line .note{font-size:13px;color:rgba(255,255,255,.65)}
+
+  .form-card{background:#fff;color:var(--ink);border-radius:22px;padding:clamp(24px,3vw,32px);border:1px solid var(--line)}
+  .form-card h3{margin:0 0 6px;font-family:var(--serif);font-size:26px;letter-spacing:-0.015em;line-height:1.1;font-weight:500}
+  .form-card .sub{color:var(--ink-2);font-size:14px;margin:0 0 22px}
+  .field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+  .field label{font-size:11px;color:var(--ink-2);font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;font-weight:500}
+  .field .input-wrap{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:12px;background:var(--bg);padding:0 14px;transition:border .15s, background .15s}
+  .field .input-wrap:focus-within{border-color:var(--brand);background:#fff;box-shadow:0 0 0 3px rgba(45,107,255,.12)}
+  .field input{border:0;background:transparent;outline:none;width:100%;padding:14px 0;font-size:15px}
+  .field .prefix{color:var(--ink-3);font-family:var(--mono);font-size:13px;border-right:1px solid var(--line);padding-right:10px}
+  .radio-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .radio-row label{display:flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--line);border-radius:12px;padding:11px 6px;font-size:13px;color:var(--ink-2);cursor:pointer;transition:all .15s;text-align:center;background:#fff;position:relative}
+  .radio-row input{position:absolute;opacity:0;pointer-events:none}
+  .radio-row label:has(input:checked){border-color:var(--brand);background:var(--brand-soft);color:var(--brand);font-weight:500}
+  .submit{width:100%;margin-top:6px;background:var(--brand);color:#fff;padding:15px 20px;border-radius:999px;font-weight:500;font-size:15px;display:flex;align-items:center;justify-content:center;gap:10px;transition:transform .15s, background .15s}
+  .submit:hover{transform:translateY(-1px);background:var(--brand-dark)}
+  .form-meta{margin:14px 0 0;font-size:11.5px;color:var(--ink-3);text-align:center;line-height:1.5}
+  .success{display:none;flex-direction:column;gap:10px;align-items:center;text-align:center;padding:20px 0}
+  .success svg{color:var(--green)}
+  .form-card.done .form-body{display:none}
+  .form-card.done .success{display:flex}
+
+  /* footer */
+  footer{padding:32px 0;border-top:1px solid var(--line-2);color:var(--ink-3);font-size:13px}
+  footer .row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+  footer a:hover{color:var(--ink-2)}
+
+  .anchor{scroll-margin-top:80px}
+
+  /* ======== MOOD presets ======== */
+  body.mood-urgent{
+    --brand:#E5484D; --brand-dark:#B8253E; --brand-soft:#FFE4EA;
+  }
+  body.mood-hopeful{
+    --brand:#0E9F5E; --brand-dark:#0A7546; --brand-soft:#DCF5E8;
+  }
+  /* swap split panels for urgent — make BAD louder */
+  body.mood-urgent .split-side.bad{background:linear-gradient(160deg,#FFD9DF 0%,#FFB3BE 100%)}
+  body.mood-urgent .split-side.bad .stat,
+  body.mood-urgent .split-side.bad .tag{color:#8C1729}
+  /* hopeful — make GOOD louder */
+  body.mood-hopeful .split-side.good{background:linear-gradient(160deg,#C9F2DC 0%,#9CE3BC 100%)}
+
+  /* ======== VOICE presets ======== */
+  /* default = editorial (serif headlines) */
+  body.voice-plain .display,
+  body.voice-plain .h2,
+  body.voice-plain .form-card h3,
+  body.voice-plain .step h4,
+  body.voice-plain .plan h3,
+  body.voice-plain .stat-card h4,
+  body.voice-plain .split-side h3{
+    font-family: var(--sans);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  body.voice-plain .display em,
+  body.voice-plain .h2 em{font-style:normal;font-weight:700}
+  body.voice-plain .stat-card .big,
+  body.voice-plain .split-side .stat,
+  body.voice-plain .cta .price-line .free{font-family:var(--sans);font-weight:700;letter-spacing:-0.03em}
+
+  body.voice-clinical .display,
+  body.voice-clinical .h2,
+  body.voice-clinical .form-card h3,
+  body.voice-clinical .step h4,
+  body.voice-clinical .plan h3,
+  body.voice-clinical .stat-card h4,
+  body.voice-clinical .split-side h3{
+    font-family: var(--sans);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+  body.voice-clinical .display em,
+  body.voice-clinical .h2 em{font-style:normal;font-weight:600;color:var(--brand)}
+  body.voice-clinical .eyebrow,
+  body.voice-clinical .label,
+  body.voice-clinical .lab,
+  body.voice-clinical .duration{font-weight:600}
+  body.voice-clinical .lede{font-family:var(--mono);font-size:13.5px;letter-spacing:.01em;line-height:1.6}
+  body.voice-clinical .stat-card .big,
+  body.voice-clinical .split-side .stat,
+  body.voice-clinical .cta .price-line .free{font-family:var(--mono);font-weight:600}
+
+  /* ======== DENSITY presets ======== */
+  body.density-airy section{padding:clamp(80px,11vw,160px) 0}
+  body.density-airy .plan,
+  body.density-airy .stat-card,
+  body.density-airy .form-card{padding:clamp(32px,4vw,44px)}
+  body.density-airy .display{font-size:clamp(46px,7vw,92px)}
+  body.density-airy .h2{font-size:clamp(34px,4.5vw,58px)}
+
+  body.density-compact section{padding:clamp(40px,5vw,64px) 0}
+  body.density-compact .plan,
+  body.density-compact .stat-card{padding:20px 18px}
+  body.density-compact .form-card{padding:clamp(18px,2.4vw,24px)}
+  body.density-compact .display{font-size:clamp(32px,4.6vw,56px)}
+  body.density-compact .h2{font-size:clamp(24px,3vw,38px)}
+  body.density-compact .stat-card .big,
+  body.density-compact .split-side .stat{font-size:clamp(34px,4vw,48px)}
+  body.density-compact .lede{font-size:14.5px}
+
+  /* tweaks panel a11y */
+  .tweaks-panel{font-family:var(--sans)}
+</style>
+</head>
+
+<body data-screen-label="Care Plans Landing">
+
+<!-- =================== NAV =================== -->
+<nav class="top">
+  <div class="wrap row">
+    <a href="#" class="logo" aria-label="ekincare">
+      <span class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 60 52" fill="none">
+          <!-- ekincare E mark: blue shield with green/yellow/coral bars -->
+          <path d="M4 4 L42 4 L52 26 L42 48 L4 48 Z" fill="#2D6BFF"></path>
+          <rect x="14" y="14" width="22" height="3.5" rx="1.5" fill="#21C36F"></rect>
+          <rect x="14" y="22" width="18" height="3.5" rx="1.5" fill="#F6C90E"></rect>
+          <rect x="14" y="30" width="22" height="3.5" rx="1.5" fill="#FF5C7A"></rect>
+        </svg>
+      </span>
+      <b>ekincare</b>
+    </a>
+    <div class="links">
+      <a href="#how">How it works</a>
+      <a href="#consult">Free consultation</a>
+    </div>
+    <a href="#consult" class="nav-cta">
+      Book free call
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    </a>
+  </div>
+</nav>
+
+<!-- =================== HERO =================== -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="free-pill">
+          <span class="tag">FREE</span>
+          Specialist consultation worth ₹1,200
+        </span>
+        <h1 class="display">
+          Reverse it<br>
+          <em>before</em> it reverses you.
+        </h1>
+        <p class="lede" style="margin-top:20px">Your health check flagged blood pressure, sugar, or weight? Caught early, all three are reversible — with the right care.</p>
+        <div class="ctas">
+          <a href="#consult" class="btn btn-primary">
+            Book free consultation
+            <svg class="arr" width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </a>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</section>
+
+<!-- =================== POPULATION STATS =================== -->
+<section class="stats-sec">
+  <div class="wrap">
+    <div class="stats-head">
+      <span class="eyebrow">You are not alone</span>
+      <h2 class="h2">India is in the <em>middle of a silent epidemic.</em></h2>
+      <p class="lede">Among urban working adults, these three conditions affect more people than you'd guess. The good news: catching them early is exactly what these reports are for.</p>
+    </div>
+
+    <div class="stats-grid">
+      <!-- BP -->
+      <div class="stat-card">
+        <span class="label">High Blood Pressure</span>
+        <div class="big">1 in 3</div>
+        <h4>Indian adults have hypertension.</h4>
+        <div class="people-grid bp" aria-hidden="true">
+          <span class="on"></span><span></span><span></span><span class="on"></span><span></span><span></span><span class="on"></span><span></span><span></span><span class="on"></span>
+          <span></span><span class="on"></span><span></span><span></span><span class="on"></span><span></span><span></span><span class="on"></span><span></span><span></span>
+          <span class="on"></span><span></span><span></span><span class="on"></span><span></span><span></span><span class="on"></span><span></span><span></span><span class="on"></span>
+        </div>
+        <p class="src">~50% are unaware they have it. — ICMR &amp; WHO India</p>
+      </div>
+
+      <!-- Diabetes -->
+      <div class="stat-card">
+        <span class="label">Diabetes &amp; Pre-diabetes</span>
+        <div class="big">136M+</div>
+        <h4>Indians are diabetic or pre-diabetic.</h4>
+        <div class="chart" aria-hidden="true">
+          <svg viewBox="0 0 280 120" preserveAspectRatio="none">
+            <g stroke="var(--line)" stroke-width="1">
+              <line x1="0" y1="20" x2="280" y2="20" stroke-dasharray="2 4"></line>
+              <line x1="0" y1="60" x2="280" y2="60" stroke-dasharray="2 4"></line>
+              <line x1="0" y1="100" x2="280" y2="100"></line>
+            </g>
+            <g fill="#A07700">
+              <rect x="10" y="80" width="22" height="20" rx="2"></rect>
+              <rect x="50" y="68" width="22" height="32" rx="2"></rect>
+              <rect x="90" y="56" width="22" height="44" rx="2"></rect>
+              <rect x="130" y="42" width="22" height="58" rx="2"></rect>
+              <rect x="170" y="30" width="22" height="70" rx="2"></rect>
+              <rect x="210" y="18" width="22" height="82" rx="2"></rect>
+              <rect x="250" y="8" width="22" height="92" rx="2" fill="#FF8800"></rect>
+            </g>
+            <g font-family="ui-monospace,monospace" font-size="9" fill="var(--ink-3)">
+              <text x="10" y="115">'90</text>
+              <text x="90" y="115">'05</text>
+              <text x="170" y="115">'15</text>
+              <text x="248" y="115">'25</text>
+            </g>
+          </svg>
+        </div>
+        <p class="src">Cases tripled in 25 years. — ICMR-INDIAB, Lancet 2023</p>
+      </div>
+
+      <!-- Weight -->
+      <div class="stat-card">
+        <span class="label">Overweight &amp; Obesity</span>
+        <div class="big">44%</div>
+        <h4>of urban Indians have unhealthy BMI.</h4>
+        <div class="chart" aria-hidden="true">
+          <svg viewBox="0 0 280 120" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="wtGrad" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0" stop-color="#2D6BFF" stop-opacity=".35"></stop>
+                <stop offset="1" stop-color="#2D6BFF" stop-opacity="0"></stop>
+              </linearGradient>
+            </defs>
+            <g stroke="var(--line)" stroke-width="1">
+              <line x1="0" y1="20" x2="280" y2="20" stroke-dasharray="2 4"></line>
+              <line x1="0" y1="60" x2="280" y2="60" stroke-dasharray="2 4"></line>
+              <line x1="0" y1="100" x2="280" y2="100"></line>
+            </g>
+            <path d="M10 88 Q70 78 110 64 T200 38 T270 22 L270 100 L10 100 Z" fill="url(#wtGrad)"></path>
+            <path d="M10 88 Q70 78 110 64 T200 38 T270 22" stroke="#2D6BFF" stroke-width="2.5" fill="none"></path>
+            <circle cx="10" cy="88" r="3" fill="#2D6BFF"></circle>
+            <circle cx="270" cy="22" r="3.5" fill="#2D6BFF"></circle>
+            <g font-family="ui-monospace,monospace" font-size="9" fill="var(--ink-3)">
+              <text x="10" y="115">2010</text>
+              <text x="135" y="115">2018</text>
+              <text x="248" y="115">2025</text>
+            </g>
+          </svg>
+        </div>
+        <p class="src">Up from 21% in 2010. — NFHS-5 &amp; WHO</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== SPLIT — RISK vs REVERSE =================== -->
+<section class="split">
+  <div class="wrap">
+    <div class="split-grid">
+      <div class="split-side bad">
+        <span class="tag">If ignored</span>
+        <div class="stat">8 yrs</div>
+        <div class="stat-lab">until pre-diabetes becomes Type 2 — and the damage is permanent.</div>
+        <h3>Heart attack. Kidney damage. Daily pills.</h3>
+      </div>
+      <div class="split-side good">
+        <span class="tag">If acted on now</span>
+        <div class="stat">12 wks</div>
+        <div class="stat-lab">to measurable reversal — without medication for most people.</div>
+        <h3>Lower BP. Normal sugar. 5–7% lighter.</h3>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== CARE PLANS — condition-focused =================== -->
+<section id="plans" class="anchor" style="padding-bottom:clamp(40px,5vw,72px)">
+  <div class="wrap">
+    <div class="plans-head">
+      <span class="eyebrow">What your report may have flagged</span>
+      <h2 class="h2">Three silent risks. <em>One smart move each.</em></h2>
+    </div>
+
+    <div class="plans-grid">
+      <article class="plan bp">
+        <div class="icon-wrap" data-comment-anchor="9f39a12d83-div">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.8"></circle><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 13.5h2M19 13.5h2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
+        </div>
+        <h3>High Blood Pressure</h3>
+        <p class="one-liner"><b>The risk:</b> Silently scars your heart, kidneys, and brain. 2× stroke risk. India's #1 cause of kidney failure.</p>
+        <p class="one-liner" style="margin-top:-4px">Best move: Track BP daily, cut sodium, walk 30 min, manage stress &amp; sleep.</p>
+      </article>
+
+      <article class="plan dia">
+        <div class="icon-wrap">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="13" height="18" rx="2" stroke="currentColor" stroke-width="1.8"></rect><rect x="7" y="6" width="7" height="4" rx="1" stroke="currentColor" stroke-width="1.5"></rect><path d="M7 14h7M7 17h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><path d="M19 9c0 1.5-2 2.5-2 4a2 2 0 0 0 4 0c0-1.5-2-2.5-2-4Z" fill="currentColor"></path></svg>
+        </div>
+        <h3>Pre-Diabetes &amp; Diabetes</h3>
+        <p class="one-liner"><b>The risk:</b> 70% of pre-diabetics turn Type 2 within 8 years. Damages eyes, nerves, kidneys — often before symptoms.</p>
+        <p class="one-liner" style="margin-top:-4px">Best move: See your sugar live with a CGM, fix glycemic load, add strength training.</p>
+      </article>
+
+      <article class="plan wt">
+        <div class="icon-wrap">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="5" r="2.4" stroke="currentColor" stroke-width="1.8"></circle><path d="M8.5 11h7l-.8 4h-1.7v6h-2v-6h-1.7l-.8-4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path><path d="M19 7l2 2-2 2M21 9h-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </div>
+        <h3>Excess Weight</h3>
+        <p class="one-liner"><b>The risk:</b> Belly fat drives BP up, dulls insulin, and inflames arteries — the root behind both risks above.</p>
+        <p class="one-liner" style="margin-top:-4px"><b>Best move:</b> Drop 5–7% body weight via a macro-balanced plan and habit coaching — most metabolic markers reset.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- =================== HOW IT WORKS =================== -->
+<section id="how" class="anchor" style="padding-top:clamp(40px,5vw,72px)">
+  <div class="wrap">
+    <div class="plans-head" style="margin-bottom:36px">
+      <span class="eyebrow">How it works</span>
+      <h2 class="h2">2 steps. <em>15 minutes.</em></h2>
+    </div>
+
+    <div class="how-grid">
+      <div class="step">
+        <div class="n">1</div>
+        <h4>Share your number</h4>
+        <p>Drop your name and phone below. Takes 10 seconds.</p>
+      </div>
+      <div class="step">
+        <div class="n">2</div>
+        <h4>15-min specialist call</h4>
+        <p>A specialist reviews your report on the call and shares clear next steps — a care plan only if you actually need one.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== FORM CTA =================== -->
+<section id="consult" class="cta anchor">
+  <div class="wrap">
+    <div class="grid">
+      <div>
+        <h2 class="display">Book your <em>free</em> specialist call.</h2>
+        <p class="lede" style="margin-top:18px">A 15-minute consult with a specialist who can help you plan your next steps.</p>
+
+        <div class="price-line">
+          <span class="free">FREE</span>
+          <span class="strike">₹1,200</span>
+          <span class="note">— for employees who completed their annual check.</span>
+        </div>
+      </div>
+
+      <div class="form-card" id="formCard">
+        <div class="form-body">
+          <h3>Reserve my slot</h3>
+          <p class="sub">We'll call you within 24 working hours.</p>
+
+          <form id="leadForm" novalidate="">
+            <div class="field">
+              <label for="name">Name</label>
+              <div class="input-wrap">
+                <input id="name" name="name" type="text" placeholder="Your full name" autocomplete="name" required="">
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="phone">Phone</label>
+              <div class="input-wrap">
+                <span class="prefix">+91</span>
+                <input id="phone" name="phone" type="tel" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" placeholder="10-digit mobile" autocomplete="tel-national" required="">
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Concern (optional)</label>
+              <div class="radio-row" role="radiogroup">
+                <label><input type="radio" name="concern" value="bp"><span>BP</span></label>
+                <label><input type="radio" name="concern" value="diabetes"><span>Diabetes</span></label>
+                <label><input type="radio" name="concern" value="weight"><span>Weight</span></label>
+              </div>
+            </div>
+
+            <button type="submit" class="submit">
+              Book free consultation
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </button>
+            <p class="form-meta">By submitting, you agree to be contacted by an ekincare advisor.</p>
+            <p id="form-error" style="display:none;color:#D63B5A;font-size:13px;text-align:center;margin-top:8px">Something went wrong. Please try again.</p>
+          </form>
+        </div>
+
+        <div class="success">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.4"></circle><path d="M8 12.5l2.5 2.5L16 9.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <h3 style="margin:6px 0 0">You're on the list.</h3>
+          <p class="sub" style="margin:0">A care advisor will call within 4 working hours.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap row">
+    <div>© 2026 ekincare · Care Plans</div>
+    <div style="display:flex;gap:18px">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href');
+      if (id.length < 2) return;
+      const el = document.querySelector(id);
+      if (!el) return;
+      e.preventDefault();
+      const top = el.getBoundingClientRect().top + window.scrollY - 64;
+      window.scrollTo({ top, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    });
+  });
+
+  const form = document.getElementById('leadForm');
+  const card = document.getElementById('formCard');
+  form?.addEventListener('submit', async e => {
+    e.preventDefault();
+    const name = form.name.value.trim();
+    const phone = form.phone.value.trim();
+    if (!name) { form.name.focus(); return; }
+    if (!/^\d{10}$/.test(phone)) { form.phone.focus(); return; }
+    const btn = form.querySelector('.submit');
+    const concern = (form.querySelector('input[name="concern"]:checked') || {}).value || null;
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
+    btn.textContent = 'Submitting…';
+    try {
+      const res = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, phone: '+91' + phone, concern }),
+      });
+      if (!res.ok) throw new Error('server');
+      card.classList.add('done');
+    } catch {
+      btn.disabled = false;
+      btn.style.opacity = '';
+      btn.textContent = 'Book free consultation';
+      document.getElementById('form-error').style.display = 'block';
+    }
+  });
+
+  const phone = document.getElementById('phone');
+  phone?.addEventListener('input', () => {
+    phone.value = phone.value.replace(/\D/g, '').slice(0, 10);
+  });
+</script>
+
+</body>
+</html>
