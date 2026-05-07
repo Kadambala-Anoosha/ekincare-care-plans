@@ -497,7 +497,7 @@
         </div>
         <h3>High Blood Pressure</h3>
         <p class="one-liner"><b>The risk:</b> Silently scars your heart, kidneys, and brain. 2× stroke risk. India's #1 cause of kidney failure.</p>
-        <p class="one-liner" style="margin-top:-4px">Best move: Track BP daily, cut sodium, walk 30 min, manage stress &amp; sleep.</p>
+        <p class="one-liner" style="margin-top:-4px"><b>Best move:</b> Track BP daily, cut sodium, walk 30 min, manage stress &amp; sleep.</p>
       </article>
 
       <article class="plan dia">
@@ -506,7 +506,7 @@
         </div>
         <h3>Pre-Diabetes &amp; Diabetes</h3>
         <p class="one-liner"><b>The risk:</b> 70% of pre-diabetics turn Type 2 within 8 years. Damages eyes, nerves, kidneys — often before symptoms.</p>
-        <p class="one-liner" style="margin-top:-4px">Best move: See your sugar live with a CGM, fix glycemic load, add strength training.</p>
+        <p class="one-liner" style="margin-top:-4px"><b>Best move:</b> See your sugar live with a CGM, fix glycemic load, add strength training.</p>
       </article>
 
       <article class="plan wt">
@@ -786,6 +786,9 @@ ReactDOM.createRoot(document.getElementById('tweaks-root')).render(<App />);
   card.addEventListener('mouseleave', stop);
   card.addEventListener('focusin', start);
   card.addEventListener('focusout', stop);
+
+  // Play once on load, then idle until hover
+  window.addEventListener('load', () => setTimeout(() => { start(); setTimeout(stop, 2700); }, 500));
 })();
 
 // Weight chart: line + head dot grow from 2010 to 2025 on hover (JS rAF tween).
@@ -851,6 +854,9 @@ ReactDOM.createRoot(document.getElementById('tweaks-root')).render(<App />);
   card.addEventListener('mouseleave', stop);
   card.addEventListener('focusin', start);
   card.addEventListener('focusout', stop);
+
+  // Play once on load, then idle until hover
+  window.addEventListener('load', () => setTimeout(() => { start(); setTimeout(stop, 2200); }, 500));
 })();
 (function animateDiaBars(){
   const bars = document.querySelectorAll('.stat-card .chart .dia-bars rect');
@@ -886,6 +892,9 @@ ReactDOM.createRoot(document.getElementById('tweaks-root')).render(<App />);
   card.addEventListener('mouseleave', stop);
   card.addEventListener('focusin', start);
   card.addEventListener('focusout', stop);
+
+  // Play once on load, then idle until hover
+  window.addEventListener('load', () => setTimeout(() => { start(); setTimeout(stop, 4900); }, 500));
 })();
 </script>
 </body>
