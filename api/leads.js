@@ -1,10 +1,3 @@
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
-
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -19,15 +12,28 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Valid 10-digit phone number required' });
   }
 
-  const { error } = await supabase.from('call_requests').insert({
-    name: name.trim(),
-    phone_number: phone,
-    program_type: concern || 'general',
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  const response = await fetch(`${supabaseUrl}/rest/v1/call_requests`, {
+    method: 'POST',
+    headers: {
+      'apikey': supabaseKey,
+      'Authorization': `Bearer ${supabaseKey}`,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=minimal',
+    },
+    body: JSON.stringify({
+      name: name.trim(),
+      phone_number: phone,
+      program_type: concern || 'general',
+    }),
   });
 
-  if (error) {
-    console.error('Supabase insert error:', error.message);
-    return res.status(500).json({ error: 'Failed to save lead' });
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error('Supabase error:', response.status, errorText);
+    return res.status(500).json({ error: 'Failed to save' });
   }
 
   return res.status(200).json({ ok: true });
